@@ -1,3 +1,3 @@
 TARGET := ppl
-DEPS := style.mdk
+DEPS := style.mdk $(wildcard fig/*.pdf) $(wildcard fig/*.svg)
 include madoko.mk

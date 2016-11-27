@@ -17,7 +17,10 @@ What and Why
 
 ## Probabilistic Programming is Not
 
-Let's start by dispensing with misconceptions. Probabilistic programming is *not* just about writing software that can call `rand(3)` as part of the work it's intended to do (like a cryptographic key generator, or an ASLR implementation in an OS kernel, or even a simulated-annealing optimizer for circuit designs).
+Let's start by dispensing with misconceptions. Probabilistic programming is *not* just about writing software that can call `rand(3)` as part of the work it's intended to do (like a cryptographic key generator, or an [ASLR][] implementation in an OS kernel, or even a [simulated-annealing][sa] optimizer for circuit designs).
+
+[ASLR]: https://en.wikipedia.org/wiki/Address_space_layout_randomization
+[sa]: https://en.wikipedia.org/wiki/Simulated_annealing
 
 It's best not to think of "writing software" at all. By way of analogy, the traditional languages C++, Haskell, and Python are obviously very different in philosophy, but you can imagine (if forced) using any of them to write, say, a cataloging system for your cat pictures or a great new alternative to LaTeX. One might be better for a given domain than the other, but they're all workable. Not so with probabilistic programming languages (PPL). It's more like Prolog: sure, it's a programming language, but it's not for writing full-fledged software.
 
@@ -103,7 +106,7 @@ The hard---and useful---bit is *statistical inference*, where we guess the laten
 Statistical inference is a cornerstone of machine-learning research, and it's not easy.
 Traditionally, experts design bespoke inference algorithms for each new model they devise *by hand*.
 
-I hope you can already see the *drudgery* that this task has in common with writing assembly. There are no abstractions, no reuse, no descriptive variable names, no comments, no debugger, no type systems---and yet we're doing something that is starting to feel like programming. Look at the equations for the class registration, for example: I got tired of writing out all that math because its so repetative. This is clearly a job for an old-fashioned programming language abstraction: a function. The goal of PPLs is to bring the old and powerful magic of programming languages, which you already know and love, to the world of statistics.
+I hope you can already see the *drudgery* that this task has in common with writing assembly. There are no abstractions, no reuse, no descriptive variable names, no comments, no debugger, no type systems---and yet we're doing something that is starting to feel like programming. Look at the equations for the class registration, for example: I got tired of writing out all that math because its so repetitive. This is clearly a job for an old-fashioned programming language abstraction: a function. The goal of PPLs is to bring the old and powerful magic of programming languages, which you already know and love, to the world of statistics.
 
 ### Let's Make This a Language
 
@@ -301,7 +304,6 @@ Applications
 ============
 
 To be as starry-eyed as possible, the promise of PP is nothing less than the democratization of machine learning.
-
 In case you're not convinced yet, here are a sampling of popular applications of probabilistic programming.
 
 * [TrueSkill][] is perhaps the most widely cited example, originally laid out in [this ESOP'11 paper][tspaper]. It's the model used by multiplayer Xbox games to find good matchups among players. The idea is to model latent variables for the player's skills and to match people up so that the predicted win probability is close to 50/50.
