@@ -1,6 +1,6 @@
 var roll = function () {
-  var die1 = randomInteger(7) + 1;
-  var die2 = randomInteger(7) + 1;
+  var die1 = randomInteger(6) + 1;
+  var die2 = randomInteger(6) + 1;
   return die1 + die2;
 }
 

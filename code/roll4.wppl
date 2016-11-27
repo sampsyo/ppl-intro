@@ -1,7 +1,8 @@
 var roll = function () {
-  var die1 = randomInteger(7) + 1;
-  var die2 = randomInteger(7) + 1;
+  var die1 = randomInteger(6) + 1;
+  var die2 = randomInteger(6) + 1;
 
+  // Only keep executions where at least one die is a 4.
   if (!(die1 === 4 || die2 === 4)) {
     factor(-Infinity);
   }

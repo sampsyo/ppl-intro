@@ -283,8 +283,8 @@ One particularly nifty component of R2 is the application of classic PL ideas to
 
 The WP  approach addresses the most frustrating aspect of conditioning: the fact that you find out *after* doing a bunch of work that you have to throw it all away. In this passage from earlier:
 
-    var die1 = randomInteger(7) + 1;
-    var die2 = randomInteger(7) + 1;
+    var die1 = randomInteger(6) + 1;
+    var die2 = randomInteger(6) + 1;
 
     // Discard any executions that don’t sum to 10.
     var out = die1 + die2;
@@ -292,8 +292,8 @@ The WP  approach addresses the most frustrating aspect of conditioning: the fact
 
 we condition late in the program, which is inefficient if we use a naive strategy. (Bear with me here and pretend that the addition in the second-to-last line is expensive.) We can improve this program by making the assertion earlier in the program. And, in fact, that is the essence of a WP analysis, which asks, *What must be true at program point A in order to make a different property true at a later point B?* In our example, we can "move up" the condition to fail faster:
 
-    var die1 = randomInteger(7) + 1;
-    var die2 = randomInteger(7) + 1;
+    var die1 = randomInteger(6) + 1;
+    var die2 = randomInteger(6) + 1;
 
     require((die1 == 3 && die2 == 7) || ...);
     var out = die1 + die2;
