@@ -43,4 +43,4 @@ var rec = function() {
 }
 // END:rec
 
-Enumerate(rec)
+print(Enumerate(rec))

@@ -43,6 +43,6 @@ var rec = function(name) {
   };
 }
 
-print(Enumerate(rec('paper1')))
-print(Enumerate(rec('paper2')))
-print(Enumerate(rec('paper3')))
+viz.auto(Enumerate(rec('paper1')))
+viz.auto(Enumerate(rec('paper2')))
+viz.auto(Enumerate(rec('paper3')))
