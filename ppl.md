@@ -41,20 +41,20 @@ Both of these definitions are accurate. They just emphasize different angles on 
 [ex-problem]: fig/ex-problem.[pdf,svg]
 ~
 
-As a running example, let's imagine that we're building a system to recommend papers to researchers based on the conferences they attend.
-To keep things simple, let's say there are only two research topics in the world: programming languages and statistics.
+As a running example, let's imagine that we're building a system to recommend papers to students based on the classes they take.
+To keep things simple, let's say there are only two research topics in the world: programming languages and statistics/machine learning.
 Every paper is either a PL paper, a statistics paper, or both.
-And there are three venues in the world: PLDI, NIPS, and this Dagstuhl seminar.
+And we'll consider three courses at Cornell: CS 4110 (programming languages), CS 4780 (machine learning), and a fictional elective CS 4242 on probabilistic programming.
 
-It's pretty easy to imagine that machine learning should work for this problem: the mixture of areas revealed by your conference schedule should say something about the papers you want to read.
+It's pretty easy to imagine that machine learning should work for this problem: the mixture of areas revealed by your class schedule should say something about the papers you want to read.
 The problem is that the exact relationship can be hard to reason about directly.
-Clearly attending NIPS means you're more likely to be interested in statistics, but exactly *how much* more likely?
-What if you just went to NIPS because it was in your hometown and you were curious?
-What do we do about people who *only* attend this Dagstuhl and neither conference---do we just assume they're 50/50 PL/stats people?
+Clearly taking 4780 means you're more likely to be interested in statistics, but exactly *how much* more likely?
+What if you just went to 4780 because it was in your hometown and you were curious?
+What do we do about people who *only* take the fictional CS 4242 and neither real course---do we just assume they're 50/50 PL/stats people?
 
 ### Modeling the Problem
 
-~ Figure { caption: "A model for how interest influences conference attendance and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
+~ Figure { caption: "A model for how interest influences class registration and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
 ![ex-model-full]
 
 [ex-model-full]: fig/ex-model-full.[pdf,svg]
@@ -62,13 +62,13 @@ What do we do about people who *only* attend this Dagstuhl and neither conferenc
 
 The machine-learning way of approaching this problem is to *model* the situation using *random variables*, some of which are *latent*.
 The key insight is that the arrows are weird in our original diagram: they don't really represent causality!
-It's not that attending PLDI makes you more interested in a given paper; there's some other factor that probabilistically causes both events.
+It's not that taking 4110 makes you more interested in a given paper; there's some other factor that probabilistically causes both events.
 These are the *latent* random variables in a model for explaining the situation.
 Allowing yourself latent variables makes it much easier to reason directly about the problem.
 
 Here's a model that introduces a couple of latent variables for each person's interest in statistics and programming languages.
 We'll get more specific about the model, but now the arrows at least make sense: they mean that one variable *influences* another in some way.
-Since we all know that you don't go to every conference you're interested in, we include a third hidden factor: how *busy* you are, which makes you less likely to go to *any* conference.
+Since we all know that you don't take every class you're interested in, we include a third hidden factor: how *busy* you are, which makes you less likely to go take *any* class.
 
 This diagram of depicts a *Bayesian network*, where each vertex is a random variable and each edge is a statistical dependence.
 Variables that don't have edges between them are statistically independent. (That is, knowing something about one of the variables tells you nothing about the outcome of the other.)
@@ -86,13 +86,13 @@ The idea isn't that we'll ask people what their interest levels and business are
 So far, we've draw pictures of the dependencies in our model, but we need to get specific about what we mean.
 Here's how it normally goes: you write down a bunch of math that relates the random variables.
 
-$ \text{Pr} [ A_\text{NIPS} | I_\text{stats} \wedge B ] = 0.3 $ \
-$ \text{Pr} [ A_\text{NIPS} | I_\text{stats} \wedge \neg B ] = 0.8 $ \
-$ \text{Pr} [ A_\text{NIPS} | \neg I_\text{stats} ] = 0.1 $ \
+$ \text{Pr} [ A_\text{4780} | I_\text{stats} \wedge B ] = 0.3 $ \
+$ \text{Pr} [ A_\text{4780} | I_\text{stats} \wedge \neg B ] = 0.8 $ \
+$ \text{Pr} [ A_\text{4780} | \neg I_\text{stats} ] = 0.1 $ \
 $ ... $ \
-$ \text{Pr} [ A_\text{Dagstuhl} | I_\text{stats} \wedge I_\text{PL} ] = 0.3 $ \
-$ \text{Pr} [ A_\text{Dagstuhl} | I_\text{stats} \wedge I_\text{PL} \wedge \neg B ] = 0.8 $ \
-$ \text{Pr} [ A_\text{Dagstuhl} | \neg (I_\text{stats} \vee I_\text{PL}) ] = 0.1 $ \
+$ \text{Pr} [ A_\text{4242} | I_\text{stats} \wedge I_\text{PL} ] = 0.3 $ \
+$ \text{Pr} [ A_\text{4242} | I_\text{stats} \wedge I_\text{PL} \wedge \neg B ] = 0.8 $ \
+$ \text{Pr} [ A_\text{4242} | \neg (I_\text{stats} \vee I_\text{PL}) ] = 0.1 $ \
 $ ... $ \
 $ R_1 \sim I_\text{PL} \wedge I_\text{stats} $ \
 $ R_2 \sim I_\text{PL} $ \
@@ -103,7 +103,7 @@ The hard---and useful---bit is *statistical inference*, where we guess the laten
 Statistical inference is a cornerstone of machine-learning research, and it's not easy.
 Traditionally, experts design bespoke inference algorithms for each new model they devise *by hand*.
 
-I hope you can already see the *drudgery* that this task has in common with writing assembly. There are no abstractions, no reuse, no descriptive variable names, no comments, no debugger, no type systems---and yet we're doing something that is starting to feel like programming. Look at the equations for the conference attendance, for example: I got tired of writing out all that math because its so repetative. This is clearly a job for an old-fashioned programming language abstraction: a function. The goal of PPLs is to bring the old and powerful magic of programming languages, which you already know and love, to the world of statistics.
+I hope you can already see the *drudgery* that this task has in common with writing assembly. There are no abstractions, no reuse, no descriptive variable names, no comments, no debugger, no type systems---and yet we're doing something that is starting to feel like programming. Look at the equations for the class registration, for example: I got tired of writing out all that math because its so repetative. This is clearly a job for an old-fashioned programming language abstraction: a function. The goal of PPLs is to bring the old and powerful magic of programming languages, which you already know and love, to the world of statistics.
 
 ### Let's Make This a Language
 
@@ -155,9 +155,9 @@ This begins to reveal the point of a probabilistic programming language: the too
 
 ## Our Example Model in webppl
 
-This is enough to code up the math for our paper-recommender model. We can write functions to encode the relevance piece and the conference attendance piece, and we can test it out by randomly generating "researcher profiles."
+This is enough to code up the math for our paper-recommender model. We can write functions to encode the relevance piece and the class registration piece, and we can test it out by randomly generating "researcher profiles."
 
-    // Conference attendance.
+    // Class registration.
     var attendance = function(i_pl, i_stats, busy) {
       var attendance = function (interest, busy) {
         if (interest) {
@@ -166,11 +166,11 @@ This is enough to code up the math for our paper-recommender model. We can write
           return flip(0.1);
         }
       }
-      var a_pldi = attendance(i_pl, busy);
-      var a_nips = attendance(i_stats, busy);
-      var a_dagstuhl = attendance(i_pl && i_stats, busy);
+      var a_4110 = attendance(i_pl, busy);
+      var a_4780 = attendance(i_stats, busy);
+      var a_4242 = attendance(i_pl && i_stats, busy);
 
-      return {PLDI: a_pldi, NIPS: a_nips, Dagstuhl: a_dagstuhl};
+      return {cs4110: a_4110, cs4780: a_4780, cs4242: a_4242};
     }
 
     // Relevance of our three papers.
@@ -194,7 +194,7 @@ This is enough to code up the math for our paper-recommender model. We can write
 
     Enumerate(model)
 
-Running this will show the distribution over all the observed data. This isn't terribly useful, but it is interesting. We can see, for example, that if we know *nothing else* about a researcher, our model says they're quite likely to go to none of the conferences and to be interested in none of the papers. Fine.
+Running this will show the distribution over all the observed data. This isn't terribly useful, but it is interesting. We can see, for example, that if we know *nothing else* about a researcher, our model says they're quite likely to take none of the classes and to be interested in none of the papers. Fine.
 
 ## Conditioning
 
@@ -248,17 +248,17 @@ The results probably don't surprise you, but we can use the same principle with 
 
 ## Actually Recommending Papers
 
-Let's use the same philosophy now to actually produce recommendations. It's simple: we just need to condition on the conference attendance of the person we're interested in.
-Here's an example with my conference attendance this year.
+Let's use the same philosophy now to actually produce recommendations. It's simple: we just need to condition on the class registration of the person we're interested in.
+Here's an example that describes me: I attend my own class, CS 4110, and the fictional PPL class, CS 4242, but not the ML class, 4780.
 
     var recc = function() {
       var i_pl = flip(0.5);
       var i_stats = flip(0.5);
       var busy = flip(0.5);
 
-      // Require my conference attendance.
+      // Require my class attendance.
       var att = attendance(i_pl, i_stats, busy);
-      require(att.Dagstuhl && att.PLDI && !att.NIPS);
+      require(att.cs4242 && att.cs4110 && !att.cs4780);
 
       return relevance(i_pl, i_stats);
     }
