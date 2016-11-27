@@ -2,6 +2,9 @@ title: Probabilistic Programming
 pre, code {
   language: JavaScript;
 }
+.incomplete {
+  display: none;
+}
 [INCLUDE="style.mdk"]
 
 [TITLE]
@@ -225,12 +228,16 @@ But rejection sampling runs into trouble in the presence of conditioning. Check 
 
 **TK** example
 
+~ incomplete
+
 #### MCMC
 
 **TK**
 record trace
 flip a choice
 continue executing from there (reusing wherever possible)
+
+~
 
 
 Applications
