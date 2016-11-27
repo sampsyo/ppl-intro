@@ -1,17 +1,17 @@
-// Conference attendance.
+// Class attendance model.
 var attendance = function(i_pl, i_stats, busy) {
-  var attendance = function (interest, busy, weight) {
+  var attendance = function (interest, busy) {
     if (interest) {
-      return busy ? flip(0.3 * weight) : flip(0.8 * weight);
+      return busy ? flip(0.3) : flip(0.8);
     } else {
       return flip(0.1);
     }
   }
-  var a_pldi = attendance(i_pl, busy, 0.7);
-  var a_nips = attendance(i_stats, busy, 0.7);
-  var a_dagstuhl = attendance(i_pl && i_stats, busy, 0.9);
+  var a_4110 = attendance(i_pl, busy);
+  var a_4780 = attendance(i_stats, busy);
+  var a_4242 = attendance(i_pl && i_stats, busy);
 
-  return {PLDI: a_pldi, NIPS: a_nips, Dagstuhl: a_dagstuhl};
+  return {cs4110: a_4110, cs4780: a_4780, cs4242: a_4242};
 }
 
 // Relevance of our three papers.
@@ -29,7 +29,7 @@ var require = function(cond) {
   }
 }
 
-var recc = function(name) {
+var rec = function(name) {
   return function() {
     var i_pl = flip(0.5);
     var i_stats = flip(0.5);
@@ -37,12 +37,12 @@ var recc = function(name) {
 
     // Require my conference attendance.
     var att = attendance(i_pl, i_stats, busy);
-    require(att.Dagstuhl && att.PLDI && !att.NIPS);
+    require(att.cs4242 && att.cs4110 && !att.cs4780);
 
     return relevance(i_pl, i_stats)[name];
   };
 }
 
-print(Enumerate(recc('paper1')))
-print(Enumerate(recc('paper2')))
-print(Enumerate(recc('paper3')))
+print(Enumerate(rec('paper1')))
+print(Enumerate(rec('paper2')))
+print(Enumerate(rec('paper3')))
