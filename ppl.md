@@ -45,7 +45,7 @@ Both of these definitions are accurate. They just emphasize different angles on 
 ~ Figure { caption: "A paper-recommendation problem. The light circles are observed; the heavy circles are the outputs we want." }
 ![ex-problem]
 
-[ex-problem]: fig/ex-problem.[pdf,svg]
+[ex-problem]: fig/ex-problem.[pdf,svg] { width: 2.5in; }
 ~
 
 As a running example, let's imagine that we're building a system to recommend papers to students based on the classes they take.
@@ -64,7 +64,7 @@ What do we do about people who *only* take the fictional CS 4242 and neither rea
 ~ Figure { caption: "A model for how interest influences class registration and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
 ![ex-model-full]
 
-[ex-model-full]: fig/ex-model-full.[pdf,svg]
+[ex-model-full]: fig/ex-model-full.[pdf,svg] { width: 2.5in; }
 ~
 
 The machine-learning way of approaching this problem is to *model* the situation using *random variables*, some of which are *latent*.
@@ -83,7 +83,7 @@ Variables that don't have edges between them are statistically independent. (Tha
 ~ Figure { caption: "The rest of the model: how interest influences paper relevance." }
 ![ex-model-out]
 
-[ex-model-out]: fig/ex-model-out.[pdf,svg]
+[ex-model-out]: fig/ex-model-out.[pdf,svg] { width: 2.5in; }
 ~
 
 The idea isn't that we'll ask people what their interest levels and business are: we'll try to *infer* it from what we can observe. And then we can use this inferred information to do what we actually want: to guess paper relevance.
