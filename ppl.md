@@ -1,5 +1,6 @@
-Probabilistic Programming
-=========================
+title: Probabilistic Programming
+
+[TITLE]
 
 These are notes from an overview lecture at [the November, 2015 Dagstuhl seminar on approximate and probabilistic computing][dagstuhl].
 The lecture is an introduction to [probabilistic programming][ppl] for people from across the broad spectrum of backgrounds at the workshop, so it starts with the absolute basics.
@@ -13,7 +14,7 @@ I'm a programming-languages person, so these notes start from the opposite persp
 [ppl]: http://probabilistic-programming.org/wiki/Home
 
 What and Why
-------------
+============
 
 Probabilistic Programming is Not
 --------------------------------
@@ -114,7 +115,7 @@ Then, instead of painstakingly devising a new inference algorithm for every new 
 
 
 Basic Concepts
---------------
+==============
 
 To introduce the basic concepts of a probabilistic programming language, I'll use a project called [webppl][], which is a PPL embedded in JavaScript.
 You can read more about this language in [*The Design and Implementation of Probabilistic Programming Languages*][dippl], an in-progress book by [Noah Goodman][] and [Andreas Stuhlmüller][] from Stanford.
@@ -124,7 +125,7 @@ You can read more about this language in [*The Design and Implementation of Prob
 [webppl]: http://webppl.org/
 [dippl]: http://dippl.org
 
-### Random Primitives
+## Random Primitives
 
 The first piece of a PPL is just an ordinary programming language with primitives for drawing random numbers.
 This part looks very much like any old imperative language with a `rand` call.
@@ -153,7 +154,7 @@ You get a printout with all the possible die values between 2 and 14 and their a
 This may not look all that surprising, since you could imagine writing `Enumerate` in your favorite language by just running the function over and over. But in fact, `Enumerate` is doing something a bit more powerful. It's just sampling executions to get an *approximation* of the distribution; it's actually enumerating *every possible execution* of the function to get an *exact* distribution.
 This begins to reveal the point of a probabilistic programming language: the tools that *analyze* PPL programs are the important part, not actually executing the programs directly.
 
-### Our Example Model in webppl
+## Our Example Model in webppl
 
 This is enough to code up the math for our paper-recommender model. We can write functions to encode the relevance piece and the conference attendance piece, and we can test it out by randomly generating "researcher profiles."
 
@@ -196,7 +197,7 @@ This is enough to code up the math for our paper-recommender model. We can write
 
 Running this will show the distribution over all the observed data. This isn't terribly useful, but it is interesting. We can see, for example, that if we know *nothing else* about a researcher, our model says they're quite likely to go to none of the conferences and to be interested in none of the papers. Fine.
 
-### Conditioning
+## Conditioning
 
 The next important piece of a PPL is a *conditioning* construct.
 Conditioning lets you determine how much to weight to give to a given execution in a program.
@@ -246,7 +247,7 @@ We can encode this observation by conditioning on the outcome of the roll.
 
 The results probably don't surprise you, but we can use the same principle with our recommender.
 
-### Actually Recommending Papers
+## Actually Recommending Papers
 
 Let's use the same philosophy now to actually produce recommendations. It's simple: we just need to condition on the conference attendance of the person we're interested in.
 Here's an example with my conference attendance this year.
@@ -271,13 +272,13 @@ Suddenly, this is pretty nifty! By telling the enumerator which *executions* are
 
 The point of this section: Writing generative models feels very comfortable and straightforward, and a programming language is a great way to write down a generative algorithm. We've successfully made our job easy by shifting the burden of doing inference on these simple models to the compiler and tools.
 
-### Inference
+## Inference
 
 That `Enumerate` operation might not look like much, but it's actually an implementation of the central problem that PPLs were meant to solve: *statistical inference*. Especially in the presence of conditioning, inference on a general probabilistic program is a hard problem. Think about how `Enumerate` must work: it needs to know the outcome of a program for *every single valuation* of the program's random primitive draws. It's not hard to see how this grows exponentially. And it's even less clear if you introduce floating-point numbers: if you draw a number between 0.0 and 1.0, that's a *lot* of possible valuations—and it's not representable as a histogram.
 
 `Enumerate` just won't do for nontrivial problems. It's for this reason that efficient inference algorithms for PPLs are a huge focus in the community. Here are a couple of other inference algorithms that don't involve exploring every possible execution of a program.
 
-#### Rejection Sampling
+### Rejection Sampling
 
 The second most obvious inference algorithm uses *sampling*. The idea is to run the program a large number of times, drawing different random values for each random primitive on each execution. Apply the program's conditioning to weight each sample and total them all up. The interaction with weighting makes this strategy *rejection sampling*, so called because you reject some executions when you reach a conditioning statement.
 
@@ -298,7 +299,7 @@ continue executing from there (reusing wherever possible)
 
 
 Applications
-------------
+============
 
 To be as starry-eyed as possible, the promise of PP is nothing less than the democratization of machine learning.
 
@@ -322,9 +323,9 @@ In case you're not convinced yet, here are a sampling of popular applications of
 [Gamalon]: https://gamalon.com/
 
 Techniques
-----------
+==========
 
-### Probabilistic Assertions
+## Probabilistic Assertions
 
 On the topic of ordinary programs that encounter probabilistic behavior, I worked last year on an analysis tuned specifically for that kind of program. At the risk of self-promotion, I'll describe it here—it's especially relevant for the approximate computing part of the seminar's theme.
 
@@ -335,7 +336,7 @@ The goals are:
 
 The idea centers around introducing a new, probabilistic correctness construct into a mainstream language. What do all these PPL tools look like if they're recontextualized in the setting of ordinary software? It looks like a *probabilistic assertion*.
 
-### R2
+## R2
 
 R2 is a probabilistic programming language and implementation from Microsoft.
 The tool is [available for download][r2dl].
@@ -363,7 +364,7 @@ If we're lucky, we can even move the condition all the way back *into* the primi
 
 [r2dl]: http://research.microsoft.com/en-us/downloads/40e37dc8-1337-43e9-88af-03eabf591208/
 
-### Porting PL Ideas to PP
+## Porting PL Ideas to PP
 
 Another little cottage industry in the PP community is porting the ideas we take for granted in ordinary programming languages and porting them to PP. Here are some examples:
 
