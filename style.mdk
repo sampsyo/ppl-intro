@@ -1,0 +1,49 @@
+cite style: numeric
+bib style: plainnat
+
+<!-- Looks like LaTeX \paragraph. -->
+.h4 {
+  display: run-in;
+}
+
+<!-- Black-and-white syntax highlighting for PDF output. -->
+@if tex {
+  .token.keyword {
+    color: black;
+    font-weight: bold;
+  }
+  .token.string {
+    color: black;
+  }
+  .token.comment {
+    color: gray;
+  }
+  .token.constant {
+    color: black;
+  }
+}
+
+<!-- Placeholders. -->
+todo, .tk {
+  color: red;
+}
+tk: [TK]{.tk}
+
+<!-- Use Adobe's Source Code Pro for code. I believe this ships with TeXLive
+2015. -->
+package: [scale=0.85]sourcecodepro
+
+<!-- Hyphenate in browser. -->
+<style>
+.madoko p, .madoko li {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+</style>
+
+<!-- Don't colorize links. -->
+~TexRaw
+\hypersetup{hidelinks=true}
+~

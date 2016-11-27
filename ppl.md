@@ -1,4 +1,5 @@
 title: Probabilistic Programming
+[INCLUDE="style.mdk"]
 
 [TITLE]
 
@@ -330,6 +331,7 @@ Techniques
 On the topic of ordinary programs that encounter probabilistic behavior, I worked last year on an analysis tuned specifically for that kind of program. At the risk of self-promotion, I'll describe it here—it's especially relevant for the approximate computing part of the seminar's theme.
 
 The goals are:
+
 - Work on messy programs in a real-world programming language (here, LLVM programs, so think C and C++).
 - Make it fast to check statistical properties on the output. Think quality thresholds for approximate programs.
 - We don't care about conditioning.

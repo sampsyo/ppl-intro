@@ -49,7 +49,7 @@ view-html: $(HTML)
 
 .PHONY: watch watch-pdf watch-html
 
-LIVESERVE_ARGS := -w $(MARKDOWN) $(DEPS:%=-w %) 
+LIVESERVE_ARGS := -w $(MARKDOWN) $(DEPS:%=-w %)
 
 watch-pdf:
 	liveserve $(LIVESERVE_ARGS) -x 'make pdf' -S
