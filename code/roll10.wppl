@@ -1,3 +1,4 @@
+// Begin:roll
 var roll_condition = function () {
   var die1 = randomInteger(6) + 1;
   var die2 = randomInteger(6) + 1;
@@ -11,6 +12,7 @@ var roll_condition = function () {
   // Return the values on the dice.
   return die1 + "+" + die2;
 }
+// End:roll
 
 var dist = Enumerate(roll_condition);
 viz.auto(dist);

@@ -23,6 +23,7 @@ var relevance = function(i_pl, i_stats) {
   return {paper1: rel1, paper2: rel2, paper3: rel3};
 }
 
+// A wrapper for `factor` for requiring conditions to be true.
 var require = function(cond) {
   if (!cond) {
     factor(-Infinity);
@@ -30,6 +31,7 @@ var require = function(cond) {
 }
 
 // BEGIN:rec
+// A model query that describes my class attendance.
 var rec = function() {
   var i_pl = flip(0.5);
   var i_stats = flip(0.5);

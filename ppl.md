@@ -186,7 +186,7 @@ Say that we saw the first die, and it's a 4.
 We can condition on this information to give us the distribution on total values given that one of the dice is a 4:
 
 ```
-[INCLUDE=code/roll4.wppl]
+[INCLUDE=code/roll4.wppl:roll]
 ```
 
 Unsurprisingly, the distribution is flat except for the outcome 8, which is less likely because only one 4-containing roll can produce that total. Outcomes like 2 and 12 have probability zero because they cannot occur when one of the dice comes up 4.
@@ -195,7 +195,7 @@ What if, on the other hand, we don't get to see either of the dice, but someone 
 We can encode this observation by conditioning on the outcome of the roll.
 
 ```
-[INCLUDE=code/roll10.wppl]
+[INCLUDE=code/roll10.wppl:roll]
 ```
 
 The results probably don't surprise you, but we can use the same principle with our recommender.
@@ -209,7 +209,8 @@ Here's an example that describes me: I attend my own class, CS 4110, and the fic
 [INCLUDE=code/recommend.wppl:rec]
 ```
 
-Calling `Enumerate` on this `recc` function finally gives us something useful: a distribution over paper relevance! It's a little easier to understand if we just look at one paper at a time:
+(In this example, we define `require` to wrap `factor(-Infinity)` and completely eliminate program executions that don't satisfy a condition.)
+Calling `Enumerate` on this `rec` function finally gives us something useful: a distribution over paper relevance! It's a little easier to understand if we just look at one paper at a time:
 
     return relevance(i_pl, i_stats).paper1;
 
@@ -241,16 +242,16 @@ But rejection sampling runs into trouble in the presence of conditioning. Check 
 
 ~
 
-~ incomplete
+### MCMC
 
-#### MCMC
+Rejection sampling works for small examples, but it runs intro trouble in the presence of conditioning.
+It can waste a lot of work taking samples that don't matter (i.e., they're destined to be rejected when they hit a `factor` call).
+Smarter sampling strategies exist, the most prominent of which are [Markov chain Monte Carlo][mcmc] methods.
 
-**TK**
-record trace
-flip a choice
-continue executing from there (reusing wherever possible)
+The webppl standard library [provides MCMC algorithms][webppl mcmc]. Making MCMC correct and efficient is a popular problem in PPL research, and a full discussion is currently out of scope of this lecture.
 
-~
+[webppl mcmc]: http://dippl.org/chapters/06-mcmc.html
+[mcmc]: https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo
 
 
 Applications

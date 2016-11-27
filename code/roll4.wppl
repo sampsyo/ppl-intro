@@ -1,3 +1,4 @@
+// Begin:roll
 var roll = function () {
   var die1 = randomInteger(6) + 1;
   var die2 = randomInteger(6) + 1;
@@ -9,6 +10,7 @@ var roll = function () {
 
   return die1 + die2;
 }
+// End:roll
 
 var dist = Enumerate(roll);
 viz.auto(dist);
