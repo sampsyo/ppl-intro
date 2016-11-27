@@ -1,4 +1,7 @@
 title: Probabilistic Programming
+pre, code {
+  language: JavaScript;
+}
 [INCLUDE="style.mdk"]
 
 [TITLE]
@@ -132,8 +135,10 @@ The first piece of a PPL is just an ordinary programming language with primitive
 This part looks very much like any old imperative language with a `rand` call.
 Here's an incredibly boring webppl program:
 
-    var b = flip(0.5);
-    b ? "yes" : "no"
+```javascript
+var b = flip(0.5);
+b ? "yes" : "no"
+```
 
 This boring program just uses the outcome of a fair coin toss to return one string or another.
 It works exactly like an ordinary program with access to a `flip` function for producing random Booleans.
