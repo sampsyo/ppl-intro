@@ -133,8 +133,7 @@ This part looks very much like any old imperative language with a `rand` call.
 Here's an incredibly boring webppl program:
 
 ```javascript
-var b = flip(0.5);
-b ? "yes" : "no"
+[INCLUDE=code/flip.wppl]
 ```
 
 This boring program just uses the outcome of a fair coin toss to return one string or another.
@@ -144,13 +143,9 @@ Functions like `flip` are sometimes called *elementary random primitives*, and t
 Things get slightly more interesting when we realize that webppl can represent entire distributions, not just individual values.
 The webppl language has an `Enumerate` operation, which prints out all the probabilities in a distribution defined by a function:
 
-    var roll = function () {
-      var die1 = randomInteger(7) + 1;
-      var die2 = randomInteger(7) + 1;
-      return die1 + die2;
-    }
-
-    Enumerate(roll)
+```
+[INCLUDE=code/enumerate.wppl]
+```
 
 You get a printout with all the possible die values between 2 and 14 and their associated probabilities. You can also run the example in [webppl's in-browser interface][webppl] to get a pretty graph.
 
@@ -161,42 +156,9 @@ This begins to reveal the point of a probabilistic programming language: the too
 
 This is enough to code up the math for our paper-recommender model. We can write functions to encode the relevance piece and the class registration piece, and we can test it out by randomly generating "researcher profiles."
 
-    // Class registration.
-    var attendance = function(i_pl, i_stats, busy) {
-      var attendance = function (interest, busy) {
-        if (interest) {
-          return busy ? flip(0.3) : flip(0.8);
-        } else {
-          return flip(0.1);
-        }
-      }
-      var a_4110 = attendance(i_pl, busy);
-      var a_4780 = attendance(i_stats, busy);
-      var a_4242 = attendance(i_pl && i_stats, busy);
-
-      return {cs4110: a_4110, cs4780: a_4780, cs4242: a_4242};
-    }
-
-    // Relevance of our three papers.
-    var relevance = function(i_pl, i_stats) {
-      var rel1 = i_pl && i_stats;
-      var rel2 = i_pl;
-      var rel3 = i_stats;
-
-      return {paper1: rel1, paper2: rel2, paper3: rel3};
-    }
-
-    // A combined model.
-    var model = function() {
-      // Some even random priors for our "researcher profile."
-      var i_pl = flip(0.5);
-      var i_stats = flip(0.5);
-      var busy = flip(0.5);
-
-      return [relevance(i_pl, i_stats), attendance(i_pl, i_stats, busy)];
-    }
-
-    Enumerate(model)
+```
+[INCLUDE=code/model.wppl]
+```
 
 Running this will show the distribution over all the observed data. This isn't terribly useful, but it is interesting. We can see, for example, that if we know *nothing else* about a researcher, our model says they're quite likely to take none of the classes and to be interested in none of the papers. Fine.
 
@@ -213,40 +175,18 @@ Let's return to our dice example for a contrived example.
 Say that we saw the first die, and it's a 4.
 We can condition on this information to give us the distribution on total values given that one of the dice is a 4:
 
-    var roll = function () {
-      var die1 = randomInteger(7) + 1;
-      var die2 = randomInteger(7) + 1;
-
-      // Only keep executions where at least one die is a 4.
-      if (!(die1 === 4 || die2 === 4)) {
-        factor(-Infinity);
-      }
-
-      return die1 + die2;
-    }
-
-    Enumerate(roll)
+```
+[INCLUDE=code/roll4.wppl]
+```
 
 Unsurprisingly, the distribution is flat except for the outcome 8, which is less likely.
 
 What if, on the other hand, we don't get to see either of the dice, but someone told us that the total on the dice was 10. What does this tell us about the values of the dice themselves?
 We can encode this observation by conditioning on the outcome of the roll.
 
-    var roll_condition = function () {
-      var die1 = randomInteger(7) + 1;
-      var die2 = randomInteger(7) + 1;
-
-      // Discard any executions that don't sum to 10.
-      var out = die1 + die2;
-      if (out !== 10) {
-        factor(-Infinity);
-      }
-
-      // Return the values on the dice.
-      return [die1, die2];
-    }
-
-    Enumerate(roll_condition)
+```
+[INCLUDE=code/roll10.wppl]
+```
 
 The results probably don't surprise you, but we can use the same principle with our recommender.
 
@@ -255,17 +195,9 @@ The results probably don't surprise you, but we can use the same principle with 
 Let's use the same philosophy now to actually produce recommendations. It's simple: we just need to condition on the class registration of the person we're interested in.
 Here's an example that describes me: I attend my own class, CS 4110, and the fictional PPL class, CS 4242, but not the ML class, 4780.
 
-    var recc = function() {
-      var i_pl = flip(0.5);
-      var i_stats = flip(0.5);
-      var busy = flip(0.5);
-
-      // Require my class attendance.
-      var att = attendance(i_pl, i_stats, busy);
-      require(att.cs4242 && att.cs4110 && !att.cs4780);
-
-      return relevance(i_pl, i_stats);
-    }
+```
+[INCLUDE=code/recommend.wppl:rec]
+```
 
 Calling `Enumerate` on this `recc` function finally gives us something useful: a distribution over paper relevance! It's a little easier to understand if we just look at one paper at a time:
 
