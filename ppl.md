@@ -195,7 +195,7 @@ What if, on the other hand, we don't get to see either of the dice, but someone 
 We can encode this observation by conditioning on the outcome of the roll.
 
 ```
-[INCLUDE=code/roll10.wppl:roll]
+[INCLUDE=code/roll10.wppl:roll_condition]
 ```
 
 The results probably don't surprise you, but we can use the same principle with our recommender.
