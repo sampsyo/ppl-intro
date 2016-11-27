@@ -285,15 +285,19 @@ This section gives a few examples of recent work from the programming languages 
 
 ## Probabilistic Assertions
 
-On the topic of ordinary programs that encounter probabilistic behavior, I worked last year on an analysis tuned specifically for that kind of program. At the risk of self-promotion, I'll describe it here---it's especially relevant for the approximate computing part of the seminar's theme.
+At the very beginning of the lecture, I said that probabilistic programming was not about writing real software that you actually want to execute.
+But some research has worked to apply the lessons of PPL research to ordinary programming with probabilistic behavior.
 
-The goals are:
+One [project][passert] I worked on myself used this philosophy to help express correctness constraints for software that behaves statistically.
+The idea is to introduce a [*probabilistic assertion*][passert], written `passert`, to generalize the familiar `assert` statement to work probabilistically.
+The goals in that project are to:
 
 - Work on messy programs in a real-world programming language (here, LLVM programs, so think C and C++).
 - Make it fast to check statistical properties on the output. Think quality thresholds for approximate programs.
-- We don't care about conditioning.
+- *Not* care about conditioning. Regular software doesn't need `factor` statements, which simplifies the job of checking `passert`s.
 
-The idea centers around introducing a new, probabilistic correctness construct into a mainstream language. What do all these PPL tools look like if they're recontextualized in the setting of ordinary software? It looks like a *probabilistic assertion*.
+[passert]: http://www.cs.cornell.edu/~asampson/media/papers/passert-pldi2014.pdf
+
 
 ## R2
 
