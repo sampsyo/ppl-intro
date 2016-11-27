@@ -17,10 +17,11 @@ What and Why
 
 ## Probabilistic Programming is Not
 
-Let's start by dispensing with misconceptions. Probabilistic programming is *not* just about writing software that can call `rand(3)` as part of the work it's intended to do (like a cryptographic key generator, or an [ASLR][] implementation in an OS kernel, or even a [simulated-annealing][sa] optimizer for circuit designs).
+Let's start by dispensing with misconceptions. Probabilistic programming is *not* just about writing software that can call [`rand(3)`][rand] as part of the work it's intended to do (like a cryptographic key generator, or an [ASLR][] implementation in an OS kernel, or even a [simulated-annealing][sa] optimizer for circuit designs).
 
 [ASLR]: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 [sa]: https://en.wikipedia.org/wiki/Simulated_annealing
+[rand]: https://linux.die.net/man/3/rand
 
 It's best not to think of "writing software" at all. By way of analogy, the traditional languages C++, Haskell, and Python are obviously very different in philosophy, but you can imagine (if forced) using any of them to write, say, a cataloging system for your cat pictures or a great new alternative to LaTeX. One might be better for a given domain than the other, but they're all workable. Not so with probabilistic programming languages (PPL). It's more like Prolog: sure, it's a programming language, but it's not for writing full-fledged software.
 
