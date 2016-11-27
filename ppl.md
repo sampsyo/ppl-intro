@@ -220,13 +220,19 @@ That `Enumerate` operation might not look like much, but it's actually an implem
 
 The second most obvious inference algorithm uses *sampling*. The idea is to run the program a large number of times, drawing different random values for each random primitive on each execution. Apply the program's conditioning to weight each sample and total them all up. The interaction with weighting makes this strategy *rejection sampling*, so called because you reject some executions when you reach a conditioning statement.
 
-The webppl language has this strategy built in. It's called `ParticleFilter`, and we can run it on our examples from above.
+The webppl language has this strategy built in. It's called `ParticleFilter`, and we can run it on our examples from above:
 
-**TK** example
+```
+[INCLUDE=code/recommend-rs.wppl:pf]
+```
+
+~ incomplete
 
 But rejection sampling runs into trouble in the presence of conditioning. Check out this contrived program, which filters out all but a very small number of executions:
 
 **TK** example
+
+~
 
 ~ incomplete
 
