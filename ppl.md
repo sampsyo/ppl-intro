@@ -37,10 +37,11 @@ Both of these definitions are accurate. They just emphasize different angles on 
 
 ### An Example: Paper Recommendations
 
-<figure style="max-width: 250px;">
-<img src="../ex-problem.svg">
-<figcaption>A paper-recommendation problem. The light circles are observed; the heavy circles are the outputs we want.</figcaption>
-</figure>
+~ Figure { caption: "A paper-recommendation problem. The light circles are observed; the heavy circles are the outputs we want." }
+![ex-problem]
+
+[ex-problem]: fig/ex-problem.[pdf,svg]
+~
 
 As a running example, let's imagine that we're building a system to recommend papers to researchers based on the conferences they attend.
 To keep things simple, let's say there are only two research topics in the world: programming languages and statistics.
@@ -55,10 +56,11 @@ What do we do about people who *only* attend this Dagstuhl and neither conferenc
 
 #### Modeling the Problem
 
-<figure style="max-width: 250px;">
-<img src="../ex-model-full.svg">
-<figcaption>A model for how interest influences conference attendance and paper relevance. Dashed circles are latent variables: neither inputs nor outputs.</figcaption>
-</figure>
+~ Figure { caption: "A model for how interest influences conference attendance and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
+![ex-model-full]
+
+[ex-model-full]: fig/ex-model-full.[pdf,svg]
+~
 
 The machine-learning way of approaching this problem is to *model* the situation using *random variables*, some of which are *latent*.
 The key insight is that the arrows are weird in our original diagram: they don't really represent causality!
@@ -73,10 +75,11 @@ Since we all know that you don't go to every conference you're interested in, we
 This diagram of depicts a *Bayesian network*, where each vertex is a random variable and each edge is a statistical dependence.
 Variables that don't have edges between them are statistically independent. (That is, knowing something about one of the variables tells you nothing about the outcome of the other.)
 
-<figure style="max-width: 250px;">
-<img src="../ex-model-out.svg">
-<figcaption>The rest of the model: how interest influences paper relevance.</figcaption>
-</figure>
+~ Figure { caption: "The rest of the model: how interest influences paper relevance." }
+![ex-model-out]
+
+[ex-model-out]: fig/ex-model-out.[pdf,svg]
+~
 
 The idea isn't that we'll ask people what their interest levels and business are: we'll try to *infer* it from what we can observe. And then we can use this inferred information to do what we actually want: to guess paper relevance.
 
@@ -85,17 +88,17 @@ The idea isn't that we'll ask people what their interest levels and business are
 So far, we've draw pictures of the dependencies in our model, but we need to get specific about what we mean.
 Here's how it normally goes: you write down a bunch of math that relates the random variables.
 
-$$ \text{Pr} [ A_\text{NIPS} | I_\text{stats} \wedge B ] = 0.3 $$
-$$ \text{Pr} [ A_\text{NIPS} | I_\text{stats} \wedge \neg B ] = 0.8 $$
-$$ \text{Pr} [ A_\text{NIPS} | \neg I_\text{stats} ] = 0.1 $$
-$$ ... $$
-$$ \text{Pr} [ A_\text{Dagstuhl} | I_\text{stats} \wedge I_\text{PL} ] = 0.3 $$
-$$ \text{Pr} [ A_\text{Dagstuhl} | I_\text{stats} \wedge I_\text{PL} \wedge \neg B ] = 0.8 $$
-$$ \text{Pr} [ A_\text{Dagstuhl} | \neg (I_\text{stats} \vee I_\text{PL}) ] = 0.1 $$
-$$ ... $$
-$$ R_1 \sim I_\text{PL} \wedge I_\text{stats} $$
-$$ R_2 \sim I_\text{PL} $$
-$$ R_3 \sim I_\text{stats} $$
+$ \text{Pr} [ A_\text{NIPS} | I_\text{stats} \wedge B ] = 0.3 $ \
+$ \text{Pr} [ A_\text{NIPS} | I_\text{stats} \wedge \neg B ] = 0.8 $ \
+$ \text{Pr} [ A_\text{NIPS} | \neg I_\text{stats} ] = 0.1 $ \
+$ ... $ \
+$ \text{Pr} [ A_\text{Dagstuhl} | I_\text{stats} \wedge I_\text{PL} ] = 0.3 $ \
+$ \text{Pr} [ A_\text{Dagstuhl} | I_\text{stats} \wedge I_\text{PL} \wedge \neg B ] = 0.8 $ \
+$ \text{Pr} [ A_\text{Dagstuhl} | \neg (I_\text{stats} \vee I_\text{PL}) ] = 0.1 $ \
+$ ... $ \
+$ R_1 \sim I_\text{PL} \wedge I_\text{stats} $ \
+$ R_2 \sim I_\text{PL} $ \
+$ R_3 \sim I_\text{stats} $
 
 That's a lot of math for such a simplistic model! And it's not even the hard part.
 The hard---and useful---bit is *statistical inference*, where we guess the latent variables based on our observations.
