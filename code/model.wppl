@@ -25,7 +25,7 @@ var relevance = function(i_pl, i_stats) {
 
 // A combined model.
 var model = function() {
-  // Some even random priors for our "researcher profile."
+  // Some even random priors for our "student profile."
   var i_pl = flip(0.5);
   var i_stats = flip(0.5);
   var busy = flip(0.5);
@@ -33,4 +33,5 @@ var model = function() {
   return [relevance(i_pl, i_stats), attendance(i_pl, i_stats, busy)];
 }
 
-Enumerate(model)
+var dist = Enumerate(model);
+viz.auto(dist);

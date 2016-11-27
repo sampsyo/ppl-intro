@@ -9,7 +9,8 @@ var roll_condition = function () {
   }
 
   // Return the values on the dice.
-  return [die1, die2];
+  return die1 + "+" + die2;
 }
 
-Enumerate(roll_condition)
+var dist = Enumerate(roll_condition);
+viz.auto(dist);

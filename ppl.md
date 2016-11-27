@@ -20,18 +20,20 @@ What and Why
 
 ## Probabilistic Programming is Not
 
-Let's start by dispensing with misconceptions. Probabilistic programming is *not* just about writing software that can call [`rand(3)`][rand] as part of the work it's intended to do (like a cryptographic key generator, or an [ASLR][] implementation in an OS kernel, or even a [simulated-annealing][sa] optimizer for circuit designs).
+Counterintuitively, probabilistic programming is *not* about writing software that behaves probabilistically.
+For example, if your program calls [`rand(3)`][rand] as part of the work it's intended to do---as in a cryptographic key generator, or an [ASLR][] implementation in an OS kernel, or even a [simulated-annealing][sa] optimizer for circuit designs)---that's all well and good, but it's not what this topic is about.
 
 [ASLR]: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 [sa]: https://en.wikipedia.org/wiki/Simulated_annealing
 [rand]: https://linux.die.net/man/3/rand
 
-It's best not to think of "writing software" at all. By way of analogy, the traditional languages C++, Haskell, and Python are obviously very different in philosophy, but you can imagine (if forced) using any of them to write, say, a cataloging system for your cat pictures or a great new alternative to LaTeX. One might be better for a given domain than the other, but they're all workable. Not so with probabilistic programming languages (PPL). It's more like Prolog: sure, it's a programming language, but it's not for writing full-fledged software.
+It's best not to think of "writing software" at all. By way of analogy, traditional languages like C++, Haskell, and Python are obviously very different in philosophy, but you can imagine (if forced) using any of them to write, say, a cataloging system for your cat pictures or a great new alternative to LaTeX. One might be better for a given domain than the other, but they're all workable. Not so with probabilistic programming languages (PPL). It's more like Prolog: sure, it's a programming language---but it's not the right tool for writing full-fledged software.
 
 ## Probabilistic Programming Is
 
-Probabilistic programming is *a tool for statistical modeling*. The idea is to borrow lessons from the world of programming languages and apply them to the problems of designing and using statistical models.
-Experts construct statistical models already, by hand, in mathematical notation on paper, but it's an expert-only process that's hard to support with mechanical reasoning.
+Instead,
+probabilistic programming is *a tool for statistical modeling*. The idea is to borrow lessons from the world of programming languages and apply them to the problems of designing and using statistical models.
+Experts construct statistical models already---by hand, in mathematical notation on paper---but it's an expert-only process that's hard to support with mechanical reasoning.
 The key insight in PP is that statistical modeling can, when you do it enough, start to feel a lot like programming.
 If we make the leap and actually use a real language for our modeling, many new tools become feasible.
 We can start to automate the tasks that used to justify writing a paper for each instance.
@@ -42,51 +44,55 @@ Both of these definitions are accurate. They just emphasize different angles on 
 
 ## An Example: Paper Recommendations
 
-~ Figure { caption: "A paper-recommendation problem. The light circles are observed; the heavy circles are the outputs we want." }
+~ Figure { #fig-ex-problem; caption: "A paper-recommendation problem. The light circles are observed; the heavy circles are the outputs we want." }
 ![ex-problem]
 
 [ex-problem]: fig/ex-problem.[pdf,svg] { width: 2.5in; }
 ~
 
-As a running example, let's imagine that we're building a system to recommend papers to students based on the classes they take.
+As a running example, let's imagine that we're building a system to recommend research papers to students based on the classes they take.
 To keep things simple, let's say there are only two research topics in the world: programming languages and statistics/machine learning.
 Every paper is either a PL paper, a statistics paper, or both.
-And we'll consider three courses at Cornell: CS 4110 (programming languages), CS 4780 (machine learning), and a fictional elective CS 4242 on probabilistic programming.
+And we'll consider three courses at Cornell: CS 4110 (programming languages), CS 4780 (machine learning), and a fictional elective, "CS 4242," on probabilistic programming.
 
 It's pretty easy to imagine that machine learning should work for this problem: the mixture of areas revealed by your class schedule should say something about the papers you want to read.
 The problem is that the exact relationship can be hard to reason about directly.
 Clearly taking 4780 means you're more likely to be interested in statistics, but exactly *how much* more likely?
-What if you just went to 4780 because it was in your hometown and you were curious?
+What if you registered for 4780 because it was the only class that fit into your schedule?
 What do we do about people who *only* take the fictional CS 4242 and neither real course---do we just assume they're 50/50 PL/stats people?
 
 ### Modeling the Problem
 
-~ Figure { caption: "A model for how interest influences class registration and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
+The machine-learning way of approaching this problem is to *model* the situation using *random variables*, some of which are *latent*.
+The key insight is that the arrows in Figure [#fig-ex-problem] don't make much sense: they don't really represent causality!
+It's not that taking 4110 makes you more interested in a given paper; there's some other factor that probabilistically causes both events.
+These are the *latent* random variables in a model for explaining the situation.
+Allowing yourself latent variables makes it much easier to reason directly about the problem.
+
+~ Figure { #fig-ex-model-full; caption: "A model for how interest influences class registration and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
 ![ex-model-full]
 
 [ex-model-full]: fig/ex-model-full.[pdf,svg] { width: 2.5in; }
 ~
 
-The machine-learning way of approaching this problem is to *model* the situation using *random variables*, some of which are *latent*.
-The key insight is that the arrows are weird in our original diagram: they don't really represent causality!
-It's not that taking 4110 makes you more interested in a given paper; there's some other factor that probabilistically causes both events.
-These are the *latent* random variables in a model for explaining the situation.
-Allowing yourself latent variables makes it much easier to reason directly about the problem.
-
 Here's a model that introduces a couple of latent variables for each person's interest in statistics and programming languages.
 We'll get more specific about the model, but now the arrows at least make sense: they mean that one variable *influences* another in some way.
 Since we all know that you don't take every class you're interested in, we include a third hidden factor: how *busy* you are, which makes you less likely to go take *any* class.
 
-This diagram of depicts a *Bayesian network*, where each vertex is a random variable and each edge is a statistical dependence.
+This diagram of depicts a [*Bayesian network*][bayesnet], which is a graph where each vertex is a random variable and each edge is a statistical dependence.
 Variables that don't have edges between them are statistically independent. (That is, knowing something about one of the variables tells you nothing about the outcome of the other.)
 
-~ Figure { caption: "The rest of the model: how interest influences paper relevance." }
+To complete the model, we'll also draw nodes and edges to depict how our latent interest variables affect paper relevance:
+
+~ Figure { #fig-ex-model-out; caption: "The rest of the model: how interest influences paper relevance." }
 ![ex-model-out]
 
 [ex-model-out]: fig/ex-model-out.[pdf,svg] { width: 2.5in; }
 ~
 
-The idea isn't that we'll ask people what their interest levels and business are: we'll try to *infer* it from what we can observe. And then we can use this inferred information to do what we actually want: to guess paper relevance.
+The idea isn't that we'll ask people what their interest levels and business are: we'll try to *infer* it from what we can observe. And then we can use this inferred information to do what we actually want to do: guess the paper relevance for a given student.
+
+[bayesnet]: https://en.wikipedia.org/wiki/Bayesian_network
 
 ### A Model for Humans
 
@@ -110,12 +116,10 @@ The hard---and useful---bit is *statistical inference*, where we guess the laten
 Statistical inference is a cornerstone of machine-learning research, and it's not easy.
 Traditionally, experts design bespoke inference algorithms for each new model they devise *by hand*.
 
-I hope you can already see the *drudgery* that this task has in common with writing assembly. There are no abstractions, no reuse, no descriptive variable names, no comments, no debugger, no type systems---and yet we're doing something that is starting to feel like programming. Look at the equations for the class registration, for example: I got tired of writing out all that math because its so repetitive. This is clearly a job for an old-fashioned programming language abstraction: a function. The goal of PPLs is to bring the old and powerful magic of programming languages, which you already know and love, to the world of statistics.
-
-### Let's Make This a Language
-
-The idea behind probabilistic programming is to codify most of this modeling work in a language that computers can understand.
-Then, instead of painstakingly devising a new inference algorithm for every new model, we can seek to make that the job of the compiler and tools.
+Even this tiny example should demonstrate the drudgery of by-hand statistical modeling.
+It's like writing assembly code: we're doing something that feels a bit like programming, but
+there are no abstractions, no reuse, no descriptive variable names, no comments, no debugger, no type systems.
+Look at the equations for the class registration, for example: I got tired of writing out all that math because its so repetitive. This is clearly a job for an old-fashioned programming language abstraction: a function. The goal of PPLs is to bring the old and powerful magic of programming languages, which you already know and love, to the world of statistics.
 
 
 Basic Concepts
@@ -123,6 +127,7 @@ Basic Concepts
 
 To introduce the basic concepts of a probabilistic programming language, I'll use a project called [webppl][], which is a PPL embedded in JavaScript.
 You can read more about this language in [*The Design and Implementation of Probabilistic Programming Languages*][dippl], an in-progress book by [Noah Goodman][] and [Andreas Stuhlmüller][] from Stanford.
+It's a nice language to use as an introduction because you can play with it right in your browser.
 
 [Noah Goodman]: http://cocolab.stanford.edu/ndg.html
 [Andreas Stuhlmüller]: http://stuhlmueller.org/
@@ -131,8 +136,8 @@ You can read more about this language in [*The Design and Implementation of Prob
 
 ## Random Primitives
 
-The first piece of a PPL is just an ordinary programming language with primitives for drawing random numbers.
-This part looks very much like any old imperative language with a `rand` call.
+The first thing that makes a language a probabilistic programming language (PPL) is a set of primitives for drawing random numbers.
+At this point, a PPL looks like any old imperative language with a `rand` call.
 Here's an incredibly boring webppl program:
 
 ```javascript
@@ -141,7 +146,9 @@ Here's an incredibly boring webppl program:
 
 This boring program just uses the outcome of a fair coin toss to return one string or another.
 It works exactly like an ordinary program with access to a `flip` function for producing random Booleans.
-Functions like `flip` are sometimes called *elementary random primitives*, and they're the source of all randomnes in these programs.
+Functions like `flip` are sometimes called *elementary random primitives*, and they're the source of all randomness in these programs.
+
+If you run this little program in the webppl editor, you'll see that it does exactly what you expect: sometimes it outputs "yes," and sometimes it prints "no."
 
 Things get slightly more interesting when we realize that webppl can represent entire distributions, not just individual values.
 The webppl language has an `Enumerate` operation, which prints out all the probabilities in a distribution defined by a function:
@@ -150,20 +157,20 @@ The webppl language has an `Enumerate` operation, which prints out all the proba
 [INCLUDE=code/enumerate.wppl]
 ```
 
-You get a printout with all the possible die values between 2 and 14 and their associated probabilities. You can also run the example in [webppl's in-browser interface][webppl] to get a pretty graph.
+You get a printout with all the possible die values between 2 and 14 and their associated probabilities. That `viz.auto` call also instructs [webppl's in-browser interface][webppl] to display a pretty graph.
 
-This may not look all that surprising, since you could imagine writing `Enumerate` in your favorite language by just running the function over and over. But in fact, `Enumerate` is doing something a bit more powerful. It's just sampling executions to get an *approximation* of the distribution; it's actually enumerating *every possible execution* of the function to get an *exact* distribution.
+This may not look all that surprising, since you could imagine writing `Enumerate` in your favorite language by just running the `roll` function over and over. But in fact, `Enumerate` is doing something a bit more powerful. It's not sampling executions to get an *approximation* of the distribution; it's actually enumerating *every possible execution* of the function to get an *exact* distribution.
 This begins to reveal the point of a probabilistic programming language: the tools that *analyze* PPL programs are the important part, not actually executing the programs directly.
 
 ## Our Example Model in webppl
 
-This is enough to code up the math for our paper-recommender model. We can write functions to encode the relevance piece and the class registration piece, and we can test it out by randomly generating "researcher profiles."
+This is enough to code up the math for our paper-recommender model. We can write functions to encode the relevance piece and the class registration piece, and we can test it out by randomly generating "student profiles."
 
 ```
 [INCLUDE=code/model.wppl]
 ```
 
-Running this will show the distribution over all the observed data. This isn't terribly useful, but it is interesting. We can see, for example, that if we know *nothing else* about a researcher, our model says they're quite likely to take none of the classes and to be interested in none of the papers. Fine.
+Running this will show the distribution over all the observed data. This isn't terribly useful, but it is interesting. We can see, for example, that if we know *nothing else* about a student, our model says they're quite likely to take none of the classes and to be interested in none of the papers.
 
 ## Conditioning
 
@@ -182,7 +189,7 @@ We can condition on this information to give us the distribution on total values
 [INCLUDE=code/roll4.wppl]
 ```
 
-Unsurprisingly, the distribution is flat except for the outcome 8, which is less likely.
+Unsurprisingly, the distribution is flat except for the outcome 8, which is less likely because only one 4-containing roll can produce that total. Outcomes like 2 and 12 have probability zero because they cannot occur when one of the dice comes up 4.
 
 What if, on the other hand, we don't get to see either of the dice, but someone told us that the total on the dice was 10. What does this tell us about the values of the dice themselves?
 We can encode this observation by conditioning on the outcome of the roll.

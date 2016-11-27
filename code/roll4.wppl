@@ -10,4 +10,5 @@ var roll = function () {
   return die1 + die2;
 }
 
-Enumerate(roll)
+var dist = Enumerate(roll);
+viz.auto(dist);
