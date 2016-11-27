@@ -6,22 +6,22 @@ pre, code {
 
 [TITLE]
 
-TK [probabilistic programming][ppl]
+The programming languages and machine learning communities have, over the last few years, developed a shared set of research interests under the umbrella of [*probabilistic programming*][ppl].
+The idea is that we might be able to "export" powerful PL concepts like abstraction and reuse to statistical modeling, which is currently an arcane and arduous task.
 
 [ppl]: http://probabilistic-programming.org/wiki/Home
+
 
 What and Why
 ============
 
-Probabilistic Programming is Not
---------------------------------
+## Probabilistic Programming is Not
 
 Let's start by dispensing with misconceptions. Probabilistic programming is *not* just about writing software that can call `rand(3)` as part of the work it's intended to do (like a cryptographic key generator, or an ASLR implementation in an OS kernel, or even a simulated-annealing optimizer for circuit designs).
 
 It's best not to think of "writing software" at all. By way of analogy, the traditional languages C++, Haskell, and Python are obviously very different in philosophy, but you can imagine (if forced) using any of them to write, say, a cataloging system for your cat pictures or a great new alternative to LaTeX. One might be better for a given domain than the other, but they're all workable. Not so with probabilistic programming languages (PPL). It's more like Prolog: sure, it's a programming language, but it's not for writing full-fledged software.
 
-Probabilistic Programming Is
-----------------------------
+## Probabilistic Programming Is
 
 Probabilistic programming is *a tool for statistical modeling*. The idea is to borrow lessons from the world of programming languages and apply them to the problems of designing and using statistical models.
 Experts construct statistical models already, by hand, in mathematical notation on paper, but it's an expert-only process that's hard to support with mechanical reasoning.
@@ -33,7 +33,7 @@ Here's a second definition: a probabilistic programming language is an ordinary 
 
 Both of these definitions are accurate. They just emphasize different angles on the same core idea. Which one makes sense to you will depend on what you want to use PP for. But don't get distracted by the fact that PPL programs look a lot like ordinary software implementations, where the goal is to *run* the program and get some kind of output. The goal in PP is analysis, not execution.
 
-### An Example: Paper Recommendations
+## An Example: Paper Recommendations
 
 ~ Figure { caption: "A paper-recommendation problem. The light circles are observed; the heavy circles are the outputs we want." }
 ![ex-problem]
@@ -52,7 +52,7 @@ Clearly attending NIPS means you're more likely to be interested in statistics, 
 What if you just went to NIPS because it was in your hometown and you were curious?
 What do we do about people who *only* attend this Dagstuhl and neither conference---do we just assume they're 50/50 PL/stats people?
 
-#### Modeling the Problem
+### Modeling the Problem
 
 ~ Figure { caption: "A model for how interest influences conference attendance and paper relevance. Dashed circles are latent variables: neither inputs nor outputs." }
 ![ex-model-full]
@@ -273,7 +273,7 @@ The point of this section: Writing generative models feels very comfortable and 
 
 ## Inference
 
-That `Enumerate` operation might not look like much, but it's actually an implementation of the central problem that PPLs were meant to solve: *statistical inference*. Especially in the presence of conditioning, inference on a general probabilistic program is a hard problem. Think about how `Enumerate` must work: it needs to know the outcome of a program for *every single valuation* of the program's random primitive draws. It's not hard to see how this grows exponentially. And it's even less clear if you introduce floating-point numbers: if you draw a number between 0.0 and 1.0, that's a *lot* of possible valuations—and it's not representable as a histogram.
+That `Enumerate` operation might not look like much, but it's actually an implementation of the central problem that PPLs were meant to solve: *statistical inference*. Especially in the presence of conditioning, inference on a general probabilistic program is a hard problem. Think about how `Enumerate` must work: it needs to know the outcome of a program for *every single valuation* of the program's random primitive draws. It's not hard to see how this grows exponentially. And it's even less clear if you introduce floating-point numbers: if you draw a number between 0.0 and 1.0, that's a *lot* of possible valuations---and it's not representable as a histogram.
 
 `Enumerate` just won't do for nontrivial problems. It's for this reason that efficient inference algorithms for PPLs are a huge focus in the community. Here are a couple of other inference algorithms that don't involve exploring every possible execution of a program.
 
@@ -321,12 +321,15 @@ In case you're not convinced yet, here are a sampling of popular applications of
 [Ben Vigoda]: http://computefest.seas.harvard.edu/people/ben-vigoda
 [Gamalon]: https://gamalon.com/
 
+
 Techniques
 ==========
 
+This section gives a few examples of recent work from the programming languages community that focuses on probabilistic programming.
+
 ## Probabilistic Assertions
 
-On the topic of ordinary programs that encounter probabilistic behavior, I worked last year on an analysis tuned specifically for that kind of program. At the risk of self-promotion, I'll describe it here—it's especially relevant for the approximate computing part of the seminar's theme.
+On the topic of ordinary programs that encounter probabilistic behavior, I worked last year on an analysis tuned specifically for that kind of program. At the risk of self-promotion, I'll describe it here---it's especially relevant for the approximate computing part of the seminar's theme.
 
 The goals are:
 
@@ -341,7 +344,7 @@ The idea centers around introducing a new, probabilistic correctness construct i
 R2 is a probabilistic programming language and implementation from Microsoft.
 The tool is [available for download][r2dl].
 
-One particularly nifty component of R2 is the application of classic PL ideas to improve statistical inference. Most prominently, the R2 people use weakest preconditions analysis to improve rejection sampling—that naive randomized inference strategy we talked about before.
+One particularly nifty component of R2 is the application of classic PL ideas to improve statistical inference. Most prominently, the R2 people use weakest preconditions analysis to improve rejection sampling---that naive randomized inference strategy we talked about before.
 
 The WP  approach addresses the most frustrating aspect of conditioning: the fact that you find out *after* doing a bunch of work that you have to throw it all away. In this passage from earlier:
 
@@ -360,13 +363,14 @@ we condition late in the program, which is inefficient if we use a naive strateg
     require((die1 == 3 && die2 == 7) || ...);
     var out = die1 + die2;
 
-If we're lucky, we can even move the condition all the way back *into* the primitive sampling call—and avoid doing any work at all that will eventually be rejected later.
+If we're lucky, we can even move the condition all the way back *into* the primitive sampling call---and avoid doing any work at all that will eventually be rejected later.
 
 [r2dl]: http://research.microsoft.com/en-us/downloads/40e37dc8-1337-43e9-88af-03eabf591208/
 
 ## Porting PL Ideas to PP
 
-Another little cottage industry in the PP community is porting the ideas we take for granted in ordinary programming languages and porting them to PP. Here are some examples:
+Part of the promise of probabilistic programming is that we should be able to "port" ideas from the standard PL literature to the PPL world.
+Here are some examples:
 
 * [Static analysis][sriram-pldi13]: proving assertions
 * [Termination checking][martengales]
