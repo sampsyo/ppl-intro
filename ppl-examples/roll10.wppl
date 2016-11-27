@@ -1,0 +1,15 @@
+var roll_condition = function () {
+  var die1 = randomInteger(7) + 1;
+  var die2 = randomInteger(7) + 1;
+
+  // Discard any executions that don't sum to 10.
+  var out = die1 + die2;
+  if (out !== 10) {
+    factor(-Infinity);
+  }
+
+  // Return the values on the dice.
+  return [die1, die2];
+}
+
+Enumerate(roll_condition)

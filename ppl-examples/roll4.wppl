@@ -1,0 +1,12 @@
+var roll = function () {
+  var die1 = randomInteger(7) + 1;
+  var die2 = randomInteger(7) + 1;
+
+  if (!(die1 === 4 || die2 === 4)) {
+    factor(-Infinity);
+  }
+
+  return die1 + die2;
+}
+
+Enumerate(roll)

@@ -1,0 +1,44 @@
+// Conference attendance.
+var attendance = function(i_pl, i_stats, busy) {
+  var attendance = function (interest, busy, weight) {
+    if (interest) {
+      return busy ? flip(0.3 * weight) : flip(0.8 * weight);
+    } else {
+      return flip(0.1);
+    }
+  }
+  var a_pldi = attendance(i_pl, busy, 0.7);
+  var a_nips = attendance(i_stats, busy, 0.7);
+  var a_dagstuhl = attendance(i_pl && i_stats, busy, 0.9);
+
+  return {PLDI: a_pldi, NIPS: a_nips, Dagstuhl: a_dagstuhl};
+}
+
+// Relevance of our three papers.
+var relevance = function(i_pl, i_stats) {
+  var rel1 = i_pl && i_stats;
+  var rel2 = i_pl;
+  var rel3 = i_stats;
+
+  return {paper1: rel1, paper2: rel2, paper3: rel3};
+}
+
+var require = function(cond) {
+  if (!cond) {
+    factor(-Infinity);
+  }
+}
+
+var recc = function() {
+  var i_pl = flip(0.5);
+  var i_stats = flip(0.5);
+  var busy = flip(0.5);
+
+  // Require my conference attendance.
+  var att = attendance(i_pl, i_stats, busy);
+  require(att.Dagstuhl && att.PLDI && !att.NIPS);
+
+  return relevance(i_pl, i_stats);
+}
+
+Enumerate(recc)

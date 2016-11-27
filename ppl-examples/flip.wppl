@@ -1,0 +1,2 @@
+var b = flip(0.5);
+b ? "yes" : "no"
