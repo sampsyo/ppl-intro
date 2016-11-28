@@ -247,7 +247,7 @@ But rejection sampling runs into trouble in the presence of conditioning. Check 
 
 ### MCMC
 
-Rejection sampling works for small examples, but it runs intro trouble in the presence of conditioning.
+Rejection sampling works for small examples, but it runs into trouble in the presence of conditioning.
 It can waste a lot of work taking samples that don't matter (i.e., they're destined to be rejected when they hit a `factor` call).
 Smarter sampling strategies exist, the most prominent of which are [Markov chain Monte Carlo][mcmc] methods.
 
