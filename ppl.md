@@ -12,7 +12,10 @@ pre, code {
 The programming languages and machine learning communities have, over the last few years, developed a shared set of research interests under the umbrella of [*probabilistic programming*][ppl].
 The idea is that we might be able to "export" powerful PL concepts like abstraction and reuse to statistical modeling, which is currently an arcane and arduous task.
 
+(The source for these lecture notes is [on GitHub][gh]. If you notice any mistakes, please open a pull request.)
+
 [ppl]: http://probabilistic-programming.org/wiki/Home
+[gh]: https://github.com/sampsyo/ppl-intro
 
 
 What and Why
