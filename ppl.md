@@ -82,7 +82,7 @@ Here's a model that introduces a couple of latent variables for each person's in
 We'll get more specific about the model, but now the arrows at least make sense: they mean that one variable *influences* another in some way.
 Since we all know that you don't take every class you're interested in, we include a third hidden factor: how *busy* you are, which makes you less likely to go take *any* class.
 
-This diagram of depicts a [*Bayesian network*][bayesnet], which is a graph where each vertex is a random variable and each edge is a statistical dependence.
+This diagram depicts a [*Bayesian network*][bayesnet], which is a graph where each vertex is a random variable and each edge is a statistical dependence.
 Variables that don't have edges between them are statistically independent. (That is, knowing something about one of the variables tells you nothing about the outcome of the other.)
 
 To complete the model, we'll also draw nodes and edges to depict how our latent interest variables affect paper relevance:
