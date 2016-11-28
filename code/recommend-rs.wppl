@@ -46,4 +46,4 @@ var rec = function(name) {
 // Begin:pf
 var sampled = ParticleFilter(rec('paper1'), 1000);
 // End:pf
-viz.auto(inferred);
+viz.auto(sampled);
