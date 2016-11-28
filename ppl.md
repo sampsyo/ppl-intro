@@ -160,7 +160,7 @@ The webppl language has an `Enumerate` operation, which prints out all the proba
 [INCLUDE=code/enumerate.wppl]
 ```
 
-You get a printout with all the possible die values between 2 and 14 and their associated probabilities. That `viz.auto` call also instructs [webppl's in-browser interface][webppl] to display a pretty graph.
+You get a printout with all the possible die values between 2 and 12 and their associated probabilities. That `viz.auto` call also instructs [webppl's in-browser interface][webppl] to display a pretty graph.
 
 This may not look all that surprising, since you could imagine writing `Enumerate` in your favorite language by just running the `roll` function over and over. But in fact, `Enumerate` is doing something a bit more powerful. It's not sampling executions to get an *approximation* of the distribution; it's actually enumerating *every possible execution* of the function to get an *exact* distribution.
 This begins to reveal the point of a probabilistic programming language: the tools that *analyze* PPL programs are the important part, not actually executing the programs directly.
@@ -178,7 +178,7 @@ Running this will show the distribution over all the observed data. This isn't t
 ## Conditioning
 
 The next important piece of a PPL is a *conditioning* construct.
-Conditioning lets you determine how much to weight to give to a given execution in a program.
+Conditioning lets you determine how much weight to give to a given execution in a program.
 Crucially, you can choose the weight of an execution partway through the run---after doing some of the computation.
 You can even mark an execution as *completely irrelevant*, effectively filtering the executions to a subset.
 
