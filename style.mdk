@@ -1,3 +1,4 @@
+<!-- Reasonable bibliography style. -->
 cite style: numeric
 bib style: plainnat
 
@@ -29,11 +30,14 @@ todo, .tk {
 }
 tk: [TK]{.tk}
 
-<!-- Use Adobe's Source Code Pro for code. I believe this ships with TeXLive
-2015. -->
+<!-- Use Adobe's Source Code Pro for code in TeX output. I believe this ships
+with TeXLive 2015. -->
 package: [scale=0.85]sourcecodepro
 
-<!-- Hyphenate in browser. -->
+<!-- Don't colorize links. -->
+tex header: \hypersetup{hidelinks=true}
+
+<!-- Hyphenate in Web output. -->
 <style>
 .madoko p, .madoko li {
   -webkit-hyphens: auto;
@@ -42,8 +46,3 @@ package: [scale=0.85]sourcecodepro
   hyphens: auto;
 }
 </style>
-
-<!-- Don't colorize links. -->
-~TexRaw
-\hypersetup{hidelinks=true}
-~
