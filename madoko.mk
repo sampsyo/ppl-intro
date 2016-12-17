@@ -23,10 +23,12 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 .PHONY: deploy
-DEST_URL := http://$(DEST_PATH)/$(notdir $(PDF))
 deploy: $(PDF)
 	scp $< $(DEST)
-	@echo $(DEST_URL)
+	@echo http://$(DEST_PATH)/$(notdir $(PDF))
+deploy-html: $(HTML)
+	scp $< $(DEST)
+	@echo http://$(DEST_PATH)/$(notdir $(HTML))
 
 
 # View products.
