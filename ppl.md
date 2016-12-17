@@ -99,7 +99,7 @@ The idea isn't that we'll ask people what their interest levels and business are
 
 ### A Model for Humans
 
-So far, we've draw pictures of the dependencies in our model, but we need to get specific about what we mean.
+So far, we've drawn pictures of the dependencies in our model, but we need to get specific about what we mean.
 Here's how it normally goes: you write down a bunch of math that relates the random variables.
 
 $ \text{Pr} [ A_\text{4780} | I_\text{stats} \wedge B ] = 0.3 $ \
