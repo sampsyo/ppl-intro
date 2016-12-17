@@ -82,7 +82,7 @@ Here's a model that introduces a couple of latent variables for each person's in
 We'll get more specific about the model, but now the arrows at least make sense: they mean that one variable *influences* another in some way.
 Since we all know that you don't take every class you're interested in, we include a third hidden factor: how *busy* you are, which makes you less likely to go take *any* class.
 
-This diagram of depicts a [*Bayesian network*][bayesnet], which is a graph where each vertex is a random variable and each edge is a statistical dependence.
+This diagram depicts a [*Bayesian network*][bayesnet], which is a graph where each vertex is a random variable and each edge is a statistical dependence.
 Variables that don't have edges between them are statistically independent. (That is, knowing something about one of the variables tells you nothing about the outcome of the other.)
 
 To complete the model, we'll also draw nodes and edges to depict how our latent interest variables affect paper relevance:
@@ -99,7 +99,7 @@ The idea isn't that we'll ask people what their interest levels and business are
 
 ### A Model for Humans
 
-So far, we've draw pictures of the dependencies in our model, but we need to get specific about what we mean.
+So far, we've drawn pictures of the dependencies in our model, but we need to get specific about what we mean.
 Here's how it normally goes: you write down a bunch of math that relates the random variables.
 
 $ \text{Pr} [ A_\text{4780} | I_\text{stats} \wedge B ] = 0.3 $ \
@@ -160,7 +160,7 @@ The webppl language has an `Enumerate` operation, which prints out all the proba
 [INCLUDE=code/enumerate.wppl]
 ```
 
-You get a printout with all the possible die values between 2 and 14 and their associated probabilities. That `viz.auto` call also instructs [webppl's in-browser interface][webppl] to display a pretty graph.
+You get a printout with all the possible die values between 2 and 12 and their associated probabilities. That `viz.auto` call also instructs [webppl's in-browser interface][webppl] to display a pretty graph.
 
 This may not look all that surprising, since you could imagine writing `Enumerate` in your favorite language by just running the `roll` function over and over. But in fact, `Enumerate` is doing something a bit more powerful. It's not sampling executions to get an *approximation* of the distribution; it's actually enumerating *every possible execution* of the function to get an *exact* distribution.
 This begins to reveal the point of a probabilistic programming language: the tools that *analyze* PPL programs are the important part, not actually executing the programs directly.
@@ -178,7 +178,7 @@ Running this will show the distribution over all the observed data. This isn't t
 ## Conditioning
 
 The next important piece of a PPL is a *conditioning* construct.
-Conditioning lets you determine how much to weight to give to a given execution in a program.
+Conditioning lets you determine how much weight to give to a given execution in a program.
 Crucially, you can choose the weight of an execution partway through the run---after doing some of the computation.
 You can even mark an execution as *completely irrelevant*, effectively filtering the executions to a subset.
 
@@ -247,7 +247,7 @@ But rejection sampling runs into trouble in the presence of conditioning. Check 
 
 ### MCMC
 
-Rejection sampling works for small examples, but it runs intro trouble in the presence of conditioning.
+Rejection sampling works for small examples, but it runs into trouble in the presence of conditioning.
 It can waste a lot of work taking samples that don't matter (i.e., they're destined to be rejected when they hit a `factor` call).
 Smarter sampling strategies exist, the most prominent of which are [Markov chain Monte Carlo][mcmc] methods.
 
