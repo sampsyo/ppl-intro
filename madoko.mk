@@ -1,10 +1,9 @@
-HTML_DIR := html
-PDF_DIR := pdf
 MADOKO := madoko
+BUILD_DIR := build
 
-MARKDOWN := $(TARGET).md
-PDF := $(PDF_DIR)/$(TARGET).pdf
-HTML := $(HTML_DIR)/$(TARGET).html
+MARKDOWN := $(TARGETS:%=%.md)
+PDF := $(TARGETS:%=$(BUILD_DIR)/%.pdf)
+HTML := $(TARGETS:%=$(BUILD_DIR)/%.html)
 
 # Shortcuts.
 .PHONY: pdf html
@@ -12,16 +11,16 @@ pdf: $(PDF)
 html: $(HTML)
 
 # Build PDF via LaTeX.
-$(PDF): $(MARKDOWN) $(DEPS)
-	$(MADOKO) --odir=$(PDF_DIR) --pdf $<
+$(BUILD_DIR)/%.pdf: %.md $(DEPS)
+	$(MADOKO) --odir=$(BUILD_DIR) --pdf $<
 
 # Build Web page.
-$(HTML): $(MARKDOWN) $(DEPS)
-	$(MADOKO) --odir=$(HTML_DIR) $<
+$(BUILD_DIR)/%.html: %.md $(DEPS)
+	$(MADOKO) --odir=$(BUILD_DIR) $<
 
 .PHONY: clean
 clean:
-	rm -rf $(PDF_DIR) $(HTML_DIR)
+	rm -rf $(BUILD_DIR)
 
 .PHONY: deploy
 DEST_URL := http://$(DEST_PATH)/$(notdir $(PDF))
