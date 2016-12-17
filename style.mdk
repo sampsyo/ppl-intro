@@ -38,11 +38,10 @@ package: [scale=0.85]sourcecodepro
 tex header: \hypersetup{hidelinks=true}
 
 <!-- Hyphenate in Web output. -->
-<style>
-.madoko p, .madoko li {
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
-}
-</style>
+css header:
+    .madoko p, .madoko li {
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+      -ms-hyphens: auto;
+      hyphens: auto;
+    }
