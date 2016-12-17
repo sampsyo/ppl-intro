@@ -7,6 +7,7 @@ pre, code {
 .incomplete {
   display: none;
 }
+mathjax: true
 [INCLUDE="style.mdk"]
 
 [TITLE]
