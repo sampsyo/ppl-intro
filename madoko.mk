@@ -44,6 +44,7 @@ view: $(PDF)
 view-html: $(HTML)
 	$(OPEN) $(HTML)
 
+
 # Auto-build based on `livereload`.
 
 .PHONY: watch watch-pdf watch-html
@@ -54,6 +55,6 @@ watch-pdf:
 	liveserve $(LIVESERVE_ARGS) -x 'make pdf' -S
 
 watch-html:
-	liveserve $(LIVESERVE_ARGS) -x 'make html' $(HTML_DIR)
+	liveserve $(LIVESERVE_ARGS) -x 'make html' $(BUILD_DIR)
 
 watch: watch-pdf

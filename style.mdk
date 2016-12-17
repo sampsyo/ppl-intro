@@ -37,11 +37,33 @@ package: [scale=0.85]sourcecodepro
 <!-- Don't colorize links. -->
 tex header: \hypersetup{hidelinks=true}
 
-<!-- Hyphenate in Web output. -->
+<!-- Web style. -->
 css header:
-    .madoko p, .madoko li {
-      -webkit-hyphens: auto;
-      -moz-hyphens: auto;
-      -ms-hyphens: auto;
-      hyphens: auto;
-    }
+  /* Hyphenation for justified text. */
+  .madoko p, .madoko li {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+  /* Fonts and such. */
+  body.madoko, .madoko .serif {
+    font-family: Palatino, "Palatino Linotype", "Palatino LT STD",
+      "Book Antiqua", Cambria, Georgia, serif;
+  }
+  body {
+    line-height: 1.4em;
+  }
+  pre {
+    line-height: 1rem;
+  }
+  a {
+    color: #2A5DB0;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .titleblock {
+    margin-bottom: 1rem;
+  }
