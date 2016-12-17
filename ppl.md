@@ -1,4 +1,6 @@
 title: Probabilistic Programming
+author: [Adrian Sampson](http://www.cs.cornell.edu/~asampson/)
+affiliation: Cornell University
 pre, code {
   language: JavaScript;
 }
