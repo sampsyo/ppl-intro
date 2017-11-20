@@ -37,7 +37,7 @@ var rec = function() {
   var i_stats = flip(0.5);
   var busy = flip(0.5);
 
-  // Require my conference attendance.
+  // Require my class attendance.
   var att = attendance(i_pl, i_stats, busy);
   require(att.cs4242 && att.cs4110 && !att.cs4780);
 
@@ -45,4 +45,5 @@ var rec = function() {
 }
 // END:rec
 
-print(Enumerate(rec))
+var dist = Enumerate(rec);
+viz.table(dist);
