@@ -35,7 +35,7 @@ var rec = function(name) {
     var i_stats = flip(0.5);
     var busy = flip(0.5);
 
-    // Require my conference attendance.
+    // Require my class attendance.
     var att = attendance(i_pl, i_stats, busy);
     require(att.cs4242 && att.cs4110 && !att.cs4780);
 

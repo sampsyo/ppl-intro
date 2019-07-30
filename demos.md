@@ -17,22 +17,22 @@ Demos start with the programs in `code/`.
 4. `roll4.wppl`.
    Just add this condition to `enumerate.wppl`:
 
-       // Only keep executions where at least one die is a 4.
-       if (!(die1 === 4 || die2 === 4)) {
-         factor(-Infinity);
-       }
+         // Only keep executions where at least one die is a 4.
+         if (!(die1 === 4 || die2 === 4)) {
+           factor(-Infinity);
+         }
 
 5. `roll10.wppl`.
    Take that out and instead put this condition into the enumerate example:
 
-      var out = die1 + die2;
-      if (out !== 10) {
-        factor(-Infinity);
-      }
+        var out = die1 + die2;
+        if (out !== 10) {
+          factor(-Infinity);
+        }
 
    Then change the sum on the `return` line to produce a string:
 
-      return die1 + " + " + die2;
+        return die1 + " + " + die2;
 
    This is the magic we need to condition on *observations* and show the distribution of possible *input conditions*.
 
