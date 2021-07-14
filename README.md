@@ -21,7 +21,7 @@ The content is available under the [Creative Commons Attribution][cc-by] license
 [ple]: http://www.pl-enthusiast.net/
 [dagstuhl]: http://www.dagstuhl.de/en/program/calendar/semhp/?semnr=15491
 [ple-ppl]: http://www.pl-enthusiast.net/2014/09/08/probabilistic-programming/
-[ppl]: http://probabilistic-programming.org/wiki/Home
+[ppl]: http://probabilistic-programming.org/
 [current]: http://adriansampson.net/doc/ppl.html
 [adrian]: http://www.cs.cornell.edu/~asampson/
 [cc-by]: http://creativecommons.org/licenses/by/3.0/us/
